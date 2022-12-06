@@ -15,7 +15,7 @@ const getWeather = async () => {
             $('.HourlyWeatherCard--TableWrapper--1OobO .WeatherTable--columns--6JrVO .Column--column--3tAuz .Column--temp--1sO_J').each((_, child) => {
                 if(hourlyWeather[$(el).text()] == undefined) {
                     console.log($(child).text())
-                }
+                } // hi
             })
         })
         console.log({
