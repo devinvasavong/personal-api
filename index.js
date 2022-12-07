@@ -60,6 +60,12 @@ app.get('/weather/:postal', async (req, res) => {
     }
 })
 
+app.all("*", function(req, res) {
+    if(!res.headersSent) {
+        res.status(404).sendFile(__dirname + "/files/404.html")
+    }
+})
+
 app.listen(PORT, "localhost", () => {
     console.log(`🚀 @ ${PORT}`)
 })

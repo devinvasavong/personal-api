@@ -1,0 +1,17 @@
+body {
+    color: white !important;
+}
+
+.container {
+    height: "100%" !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+}
+
+#background {
+    background-image: url("https://cdn.discordapp.com/attachments/1042839430085484554/1049546637577560116/layered-waves-haikei.png") !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+}
