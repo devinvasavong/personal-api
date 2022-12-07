@@ -12,6 +12,27 @@ var corsOptions = {
 
 app.use(cors(corsOptions))
 
+const getHours = async () => {
+    let fetchData = await fetch(`https://www.rit.edu/fa/diningservices/places-to-eat/hours?format=day`)
+    let body = await fetchData.text()
+    let $ = cheerio.load(body)
+
+    const timeArray = new Object()
+    const stores = new Object()
+    let day = ""
+
+    $('.view-content .panel-default .panel-body').each((i, el) => {
+        if(!day) day = $(el).text().trim().split("        ")[0]
+        timeArray[i] = $(el).text().trim().split("        ")[1]
+    })
+
+    $('.view-content .hours-title ').each((i, el) => {
+        stores[$(el).text().trim()] = timeArray[i]
+    })
+
+    return { day, stores }
+}
+
 const getWeather = async (code) => {
     const response = await fetch(`https://weather.com/weather/today/l/${code}`)
     const body = await response.text()
@@ -49,14 +70,22 @@ app.get('/weather/:postal', async (req, res) => {
         try {
             let weather = await getWeather(code)
             if(weather) {
-                res.status(200).send(weather)
+                res.status(200).json(weather)
             } else {
                 res.status(404).send('No weather found')
             }
         } catch(e) {
-            console.log(e)
             res.status(500).send('Something went wrong')
         }
+    }
+})
+
+app.get('/rit/restaurants/hours', async (req, res) => {
+    let hours = await getHours()
+    if(hours) {
+        res.status(200).json(hours)
+    } else {
+        res.status(404).send('No hours found')
     }
 })
 
